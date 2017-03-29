@@ -2,7 +2,7 @@
 Test the CareerBuilder ETL transformer
 """
 from skills_utils.testing import ImporterTest
-from skills_import_private.career_builder import CareerBuilderTransformer
+from career_builder import CareerBuilderTransformer
 
 from moto import mock_s3
 import boto
