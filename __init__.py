@@ -1,3 +1,3 @@
-from skills_import_private.career_builder import CareerBuilderTransformer
+from .career_builder import CareerBuilderTransformer
 
 importers = [CareerBuilderTransformer]
