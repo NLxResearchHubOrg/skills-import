@@ -1,3 +1,3 @@
 from .career_builder import CareerBuilderTransformer
 
-importers = [CareerBuilderTransformer]
+importers = {'CB': CareerBuilderTransformer}
