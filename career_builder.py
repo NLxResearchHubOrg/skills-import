@@ -15,11 +15,10 @@ def log_download_progress(num_bytes, obj_size):
 class CareerBuilderTransformer(JobPostingImportBase):
     DATE_FORMAT = '%Y-%m-%d'
 
-    def __init__(self, onet_cache, bucket_name=None, prefix=None, **kwargs):
+    def __init__(self, bucket_name=None, prefix=None, **kwargs):
         super(CareerBuilderTransformer, self).__init__(**kwargs)
         self.bucket_name = bucket_name
         self.prefix = prefix
-        self.onet_cache = onet_cache
         self.soc_code_lookup = self._create_soc_code_lookup()
 
     def _create_soc_code_lookup(self):
