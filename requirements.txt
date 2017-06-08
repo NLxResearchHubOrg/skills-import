@@ -1,3 +1,5 @@
 git+git://github.com/workforce-data-initiative/skills-utils.git
 pytest
 moto
+unicodecsv
+pymssql
