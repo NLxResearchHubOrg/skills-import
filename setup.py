@@ -7,7 +7,7 @@ with open('README.md') as readme_file:
 
 setup(
     name='Skills Import Private',
-    version='0.1.0',
+    version='0.2.0',
     description='Importers from private datasets',
     author="Center for Data Science and Public Policy",
     author_email='datascifellows@gmail.com',

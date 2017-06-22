@@ -1,3 +1,4 @@
 from .career_builder import CareerBuilderTransformer
+from .nlx import NLXTransformer
 
-importers = {'CB': CareerBuilderTransformer}
+importers = {'CB': CareerBuilderTransformer, 'NLX': NLXTransformer}
