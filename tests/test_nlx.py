@@ -56,7 +56,8 @@ class NLXImporterTest(ImporterTest):
         self.s3_prefix = 'test-bucket/akey/'
         self.temp_dir = tempfile.TemporaryDirectory()
         self.transformer = self.transformer_class(
-            s3_prefix=self.s3_prefix,
+            bucket_name='test-bucket',
+            prefix='akey',
             temp_file_path=self.temp_dir.name,
             partner_id='NLX',
             s3_conn=self.connection,
@@ -104,6 +105,7 @@ class NLXImporterTest(ImporterTest):
 
         self.assert_num_postings_for_quarter('2015Q1', 1)
         self.assert_num_postings_for_quarter('2014Q4', 2)
+        self.assert_num_postings_for_quarter('2014Q1', 0)
 
     def assert_num_postings_for_quarter(self, quarter, expected):
         postings = [

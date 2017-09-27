@@ -11,10 +11,10 @@ from skills_utils.s3 import download
 class NLXTransformer(JobPostingImportBase):
     DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
 
-    def __init__(self, s3_prefix, temp_file_path, **kwargs):
+    def __init__(self, prefix, bucket_name, temp_file_path=None, **kwargs):
         super(NLXTransformer, self).__init__(**kwargs)
-        self.s3_prefix = s3_prefix
-        self.temp_file_path = temp_file_path
+        self.s3_prefix = bucket_name + '/' + prefix
+        self.temp_file_path = temp_file_path or 'tmp'
 
     def _iter_postings(self, quarter):
         """Iterate through NLX postings for the given quarter.
@@ -26,8 +26,11 @@ class NLXTransformer(JobPostingImportBase):
         quarter_start, quarter_end = quarter_to_daterange(quarter)
         s3_path = '{}/{}.gz'.format(self.s3_prefix, quarter)
         local_path = '{}/{}.gz'.format(self.temp_file_path, quarter)
-
-        download(self.s3_conn, local_path, s3_path)
+        try:
+            download(self.s3_conn, local_path, s3_path)
+        except Exception as e:
+            logging.warning('No source file found at %s, skipping extraction', s3_path)
+            return
         in_file = 0
         overlapping = 0
         with gzip.open(local_path) as gzfile:
@@ -36,10 +39,19 @@ class NLXTransformer(JobPostingImportBase):
                 in_file += 1
                 # sanity check: make sure the quarter in the posting matches
                 # if the sync worked correctly this should be 100% though
-                listing_time = datetime.strptime(
-                    posting['dateacquired'],
-                    self.DATE_FORMAT
-                )
+                try:
+                    listing_time = datetime.strptime(
+                        posting['dateacquired'],
+                        self.DATE_FORMAT
+                    )
+                except Exception as e:
+                    logging.warning(
+                        'Unable to convert dateacquired value %s into datetime, skipping row %s in %s',
+                        posting['dateacquired'],
+                        in_file,
+                        s3_path
+                    )
+                    continue
                 if overlaps(
                     listing_time.date(),
                     listing_time.date(),
