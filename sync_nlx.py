@@ -1,5 +1,5 @@
 import pymssql
-from skills_utils.time import datetime_to_quarter
+from skills_utils.time import datetime_to_year_quarter
 from skills_utils.s3 import upload
 import unicodecsv as csv
 import gzip
@@ -15,15 +15,16 @@ def filename(quarter_string):
 
 
 def output_writer(row, cursor_desc):
-    quarter_string = datetime_to_quarter(row['dateacquired'])
-    if quarter_string not in writers:
-        filehandles[quarter_string] = \
-            gzip.open(filename(quarter_string), 'ab')
-        writers[quarter_string] = \
-            csv.DictWriter(filehandles[quarter_string], fieldnames=cursor_desc)
-        writers[quarter_string].writeheader()
+    year, _ = datetime_to_year_quarter(row['dateacquired'])
+    year_string = str(year)
+    if year_string not in writers:
+        filehandles[year_string] = \
+            gzip.open(filename(year_string), 'ab')
+        writers[year_string] = \
+            csv.DictWriter(filehandles[year_string], fieldnames=cursor_desc)
+        writers[year_string].writeheader()
 
-    return writers[quarter_string]
+    return writers[year_string]
 
 
 QUERY = """
@@ -133,17 +134,17 @@ def run(s3_conn, output_s3_prefix):
             database=getenv('PYMSSQL_DATABASE'),
         )
         cursor = connection.cursor(as_dict=True)
-        max_pk = 21332393
+        max_pk = 42770863
         batch_size = 1000000
         for min_pk in range(0, max_pk, batch_size):
             get_batch(cursor, min_pk, batch_size)
             print('Done with min pk %s', min_pk)
         print('Now uploading files to s3')
-        for quarter, fh in filehandles.items():
+        for year, fh in filehandles.items():
             upload(
                 s3_conn,
-                filename(quarter),
-                '{}/{}.gz'.format(output_s3_prefix, quarter)
+                filename(year),
+                '{}/{}.gz'.format(output_s3_prefix, year)
             )
     finally:
         for fh in filehandles.values():
