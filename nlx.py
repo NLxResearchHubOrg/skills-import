@@ -2,69 +2,56 @@ import gzip
 import logging
 import unicodecsv as csv
 from datetime import datetime
+import s3fs
+import os
+import json
+from airflow.hooks import S3Hook
+from skills_ml.job_postings.aggregate.dataset_transform import DatasetStatsCounter
 
-from skills_utils.job_posting_import import JobPostingImportBase
-from skills_utils.time import overlaps, quarter_to_daterange
-from skills_utils.s3 import download
 
-
-class NLXTransformer(JobPostingImportBase):
+class NLXTransformer(object):
     DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
 
-    def __init__(self, prefix, bucket_name, temp_file_path=None, **kwargs):
-        super(NLXTransformer, self).__init__(**kwargs)
-        self.s3_prefix = bucket_name + '/' + prefix
+    def __init__(self, s3_prefix, temp_file_path=None):
+        self.s3_prefix = s3_prefix
         self.temp_file_path = temp_file_path or 'tmp'
 
-    def _iter_postings(self, quarter):
-        """Iterate through NLX postings for the given quarter.
+    def transformed_postings(self, year, stats_counter=None):
+        for posting in self.raw_postings(year):
+            transformed = self._transform(posting)
+            transformed['id'] = '{}_{}'.format(
+                self.partner_id,
+                self._id(posting)
+            )
+            if stats_counter:
+                stats_counter.track(
+                    input_document=posting,
+                    output_document=transformed
+                )
+            yield transformed
+
+    def raw_postings(self, year):
+        """Iterate through NLX postings for the given year.
 
         NLX postings are written in CSV form to a gzipped file,
         and stored on s3.
         """
-        logging.info("Finding NLX postings for %s", quarter)
-        quarter_start, quarter_end = quarter_to_daterange(quarter)
-        s3_path = '{}/{}.gz'.format(self.s3_prefix, quarter)
-        local_path = '{}/{}.gz'.format(self.temp_file_path, quarter)
+        logging.info("Finding raw NLX postings for %s", year)
+        s3_path = '{}/{}.gz'.format(self.s3_prefix, year)
+        local_path = '{}/{}.gz'.format(self.temp_file_path, year)
         try:
-            download(self.s3_conn, local_path, s3_path)
+            s3 = s3fs.S3FileSystem()
+            s3.get(s3_path, local_path)
         except Exception as e:
             logging.warning('No source file found at %s, skipping extraction', s3_path)
             return
         in_file = 0
-        overlapping = 0
         with gzip.open(local_path) as gzfile:
             reader = csv.DictReader(gzfile)
             for posting in reader:
                 in_file += 1
-                # sanity check: make sure the quarter in the posting matches
-                # if the sync worked correctly this should be 100% though
-                try:
-                    listing_time = datetime.strptime(
-                        posting['dateacquired'],
-                        self.DATE_FORMAT
-                    )
-                except Exception as e:
-                    logging.warning(
-                        'Unable to convert dateacquired value %s into datetime, skipping row %s in %s',
-                        posting['dateacquired'],
-                        in_file,
-                        s3_path
-                    )
-                    continue
-                if overlaps(
-                    listing_time.date(),
-                    listing_time.date(),
-                    quarter_start,
-                    quarter_end
-                ):
-                    overlapping += 1
-                    yield posting
-            logging.info(
-                '%s matched out of %s total in file',
-                overlapping,
-                in_file
-            )
+                yield posting
+            logging.info('%s total in file', in_file)
 
     def _id(self, document):
         return document['jobID']
@@ -88,7 +75,7 @@ class NLXTransformer(JobPostingImportBase):
             transformed[target_key] = document.get(source_key, '')
 
         start = datetime.strptime(document['dateacquired'], self.DATE_FORMAT)
-        transformed['datePosted'] = start.date().isoformat()
+        transformed['datePosted'] = start.date().year
         if 'city' in document or 'state' in document:
             transformed['jobLocation'] = {
                 '@type': 'Place',
@@ -102,8 +89,40 @@ class NLXTransformer(JobPostingImportBase):
             transformed['baseSalary'] = {
                 '@type': 'MonetaryAmount',
                 'minValue': document.get('minSalary', ''),
-                'maxValue': document.get('maxSalary', '')
+                'maxValue': document.get('maxSalary', ''),
+                'salaryFrequency': document.get('salaryUnit', '')  # not standard! but we need it!
             }
         if 'maxPositions' in document:
             transformed['numPositions'] = document['maxPositions']
         return transformed
+
+
+if __name__ == '__main__':
+    transformer = NLXTransformer(
+        s3_prefix='open-skills-private/NLX_extracted',
+        temp_file_path='/mnt/sqltransfer'
+    )
+    #for year in ('2003', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2016', '2017', '2018'):
+    for year in ('2003', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013'):
+        stats_counter = DatasetStatsCounter(
+            quarter=year,
+            dataset_id='NLX'
+        )
+        logging.info('Processing year %s', year)
+        for posting in transformer.transformed_postings(year):
+            try:
+                partitioned_key = posting['id'][-4:]
+            except Exception as e:
+                logging.warning('No partition key available! Choosing fallback')
+                partitioned_key = '-1'
+            partitioned_file = '/mnt/sqltransfer/{}/{}.txt'.format(year, partitioned_key)
+            os.makedirs('/mnt/sqltransfer/{}/'.format(year), exist_ok=True)
+            with open(partitioned_file, 'ab') as f:
+                f.write(json.dumps(posting))
+                f.write('\n')
+        logging.info('Done with year %s, saving stats', year)
+
+        stats_counter.save(
+            s3_conn=S3Hook().get_conn(),
+            s3_prefix='open-skills-private/job_posting_stats'
+        )
