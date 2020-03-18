@@ -1,12 +1,24 @@
-# Skills Import Private
+# Original code
+Please see branch `original-code` for the original code. This version includes some improvements and removes some features.
 
-Utilities for importing private skills/jobs datasets and converting them to a common schema.
+# How to use
+## Get a database up
+Please see the additional documentation if you don't know how to do this.
 
-## Adding an importer
+## Extract a flat file
+Open `sync_nlx` and set the variables correctly.
+```
+pipenv run sync_nlx.py
+```
 
-Add a class under skills_import_private somewhere, and then add it to the list of importers at skills_import_private/__init__.py
-Also, please add a test! Subclass a test from https://github.com/workforce-data-initiative/skills-utils/blob/master/tests/test_job_posting_import.py to make sure that your import matches the expected schema.
+The original code compresses and pushes the flat files to S3, this version does not. It can be easily copy and pasted to add that functionality by going to the `original-code` branch.
 
-## Running tests
+Compress your flat file (gz preferably) and send it whereever you need to.
 
-This repository uses py.test. Just run `py.test`
+If instead you want to create the schema.org files continue to the next step without compressing.
+
+## Conversion to schema.org
+Set the correct variables in `nlx.py` and run
+```
+pipenv run nlx.py
+```

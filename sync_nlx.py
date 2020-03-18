@@ -4,26 +4,53 @@ from skills_utils.s3 import upload
 import unicodecsv as csv
 import gzip
 from os import getenv
+import _mssql
+import time 
+import pyodbc
+from datetime import datetime
+import os.path
+
 
 filehandles = {}
 writers = {}
-s3_keys = {}
+start_time = datetime.now()
+database = "" # Do not modify here, modify in run function
+
+
+def print_elapsed_time():
+    global start_time
+    duration = datetime.now() - start_time
+    duration_in_s = duration.total_seconds()
+    hours = divmod(duration_in_s, 3600)[0]  
+    mins = divmod(duration_in_s, 60)[0]
+    print('Elapsed: {} hours / {} mins'.format(hours, mins))
 
 
 def filename(quarter_string):
-    return '/mnt/sqltransfer/{}.gz'.format(quarter_string)
+    return 'C:/Output/1/{}.csv'.format(quarter_string)
 
 
 def output_writer(row, cursor_desc):
-    year, _ = datetime_to_year_quarter(row['dateacquired'])
+    #print(row)
+    global writers
+    global filehandles
+    year, _ = datetime_to_year_quarter(row.dateacquired)
     year_string = str(year)
     if year_string not in writers:
-        filehandles[year_string] = \
-            gzip.open(filename(year_string), 'ab')
+        if os.path.isfile(filename(year_string)):
+            new_file = False
+        else:
+            new_file = True
+            
+        filehandles[year_string] = open(filename(year_string), 'ab')
+            
         writers[year_string] = \
             csv.DictWriter(filehandles[year_string], fieldnames=cursor_desc)
-        writers[year_string].writeheader()
 
+        if new_file:
+            print('writing header')
+            writers[year_string].writeheader()
+            
     return writers[year_string]
 
 
@@ -65,7 +92,7 @@ addr.state as companyState,
 addr.zipcode as companyZipcode,
 addr.country as companyCountry,
 addr.line1 as companyAddress
-FROM [LMI-Oct2015].[dbo].[Job] j
+FROM [{database_name}].[dbo].[Job] j
 LEFT JOIN Classification onet ON (
     j.generatedJobId = onet.generatedJobId and onet.type = 'ONET'
 )
@@ -109,43 +136,98 @@ WHERE j.generatedJobId >= {min_pk} and j.generatedJobId < {max_pk}
 """
 
 
+def row_to_dict(row):
+    return dict(zip([t[0] for t in row.cursor_description], row))
+
+# These global variables will attempt to restore the query state
+# if this encounters a disconnect
+i = 0  
+total = 0
+
+
 def get_batch(cursor, min_pk, batch_size):
-    bound_query = QUERY.format(min_pk=min_pk, max_pk=min_pk+batch_size)
+    nonlocal database
+    bound_query = QUERY.format(
+        database_name=database,
+        min_pk=min_pk,
+        max_pk=min_pk+batch_size)
     cursor.execute(bound_query)
     cursor_desc = dict(
         (field[0], field[0])
         for field in cursor.description
     )
 
-    i = 0
+    # Restore cursor state if we dropped connection
+    global i
+    global total
+    temp = i
+    while temp != 0:
+        cursor.fetchone()
+        temp-=1
+        
     for row in cursor:
         i += 1
-        if i % 10000 == 0:
-            print(i)
-        output_writer(row, cursor_desc).writerow(row)
+        total += 1
+        if i % 100000 == 0:
+            print(f'{total:,} -- batch procesing {i:,}')
+        output_writer(row, cursor_desc).writerow(row_to_dict(row))
+    
+    i = 0
 
 
-def run(s3_conn, output_s3_prefix):
-    try:
-        connection = pymssql.connect(
-            server=getenv('PYMSSQL_SERVER'),
-            user=getenv('PYMSSQL_WINDOWS_USER').replace("\\", "\\\\"),
-            password=getenv('PYMSSQL_WINDOWS_PASSWORD'),
-            database=getenv('PYMSSQL_DATABASE'),
-        )
-        cursor = connection.cursor(as_dict=True)
-        max_pk = 42770863
-        batch_size = 1000000
-        for min_pk in range(0, max_pk, batch_size):
-            get_batch(cursor, min_pk, batch_size)
-            print('Done with min pk %s', min_pk)
-        print('Now uploading files to s3')
-        for year, fh in filehandles.items():
-            upload(
-                s3_conn,
-                filename(year),
-                '{}/{}.gz'.format(output_s3_prefix, year)
-            )
-    finally:
-        for fh in filehandles.values():
-            fh.close()
+def close_files():
+    global filehandles
+    global writers
+    for fh in filehandles.values():
+        fh.close()
+        
+    filehandles = {}
+    writers = {}
+
+
+def run():
+    max_pk = 52602456
+    batch_size = 1000000
+    disconnect = False
+    for min_pk in range(0, max_pk, batch_size):
+        while True:
+            try:
+                print('Time: ', str(datetime.now()))
+                print_elapsed_time()
+                nonlocal database
+                    
+                server = 'EC2AMAZ-U6JE5SD'
+                database = 'LMI'
+                username = 'pytest' 
+                password = '' 
+                connection = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+
+                print('1')
+                cursor = connection.cursor()
+                print('2')
+                get_batch(cursor, min_pk, batch_size)
+                print('3')
+                print('Done with min pk', min_pk)
+
+                break
+
+            except pyodbc.OperationalError as e:
+                print('caught a disconnect')
+                print(e)
+                try:
+                    cursor.close()
+                except:
+                    pass
+                
+                try:
+                    connection.close()
+                except:
+                    pass
+                
+            except Exception as e:    
+                print(e)
+            
+            finally:
+                close_files()
+
+run()
