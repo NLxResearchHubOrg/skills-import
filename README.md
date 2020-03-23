@@ -2,8 +2,8 @@
 Please see branch `original-code` for the original code. This version includes some improvements and removes some features.
 
 # How to use
-## Get a database up
-Please see the additional documentation if you don't know how to do this.
+## How to set this repo up
+Please see https://docs.google.com/document/d/1_Bz1zeICXzgwQC_N637CQIyxHeRwMuSV5FG7GLDO9IM/edit?usp=sharing for indepth technical notes
 
 ## Extract a flat file
 Open `sync_nlx` and set the variables correctly.
