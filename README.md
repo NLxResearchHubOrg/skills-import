@@ -1,10 +1,11 @@
 # Original code
 Please see branch `original-code` for the original code. This version includes some improvements and removes some features.
 
-# How to use
-## How to set this repo up
-Please see https://docs.google.com/document/d/1_Bz1zeICXzgwQC_N637CQIyxHeRwMuSV5FG7GLDO9IM/edit?usp=sharing for indepth technical notes
 
+# How to set this repo up
+Please see [this documentation](https://docs.google.com/document/d/1_Bz1zeICXzgwQC_N637CQIyxHeRwMuSV5FG7GLDO9IM/edit?usp=sharing) for indepth technical notes on how to setup this repo.
+
+# How to use
 ## Extract a flat file
 Open `sync_nlx` and set the variables correctly.
 ```
