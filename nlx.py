@@ -22,6 +22,8 @@ class NLXTransformer(object):
 
     def transformed_postings(self, year, stats_counter=None):
         for posting in self.raw_postings(year):
+            if not _has_all_required_fields(posting):
+                continue
             transformed = self._transform(posting)
             transformed['id'] = '{}_{}'.format(
                 #self.partner_id,
@@ -69,6 +71,21 @@ class NLXTransformer(object):
 
     def _id(self, document):
         return document['jobID']
+
+    def _has_all_required_fields(self, document):
+        required_fields = [
+            'datePosted',
+            'title',
+            'jobLocation',
+            # 'hiringOrganization',
+            'description'
+        ]
+
+        for field in required_fields:
+            if field not in document.keys():
+                return False
+        
+        return True
 
     def _transform(self, document):
         transformed = {
