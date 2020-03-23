@@ -1,4 +1,4 @@
-git+git://github.com/workforce-data-initiative/skills-utils.git
+git+git://github.com/workforce-data-initiative/skills-utils.git&egg=skills_utils
 pytest
 moto
 unicodecsv
