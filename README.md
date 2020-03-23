@@ -23,3 +23,12 @@ Set the correct variables in `nlx.py` and run
 ```
 pipenv run nlx.py
 ```
+
+# Troubleshooting
+Some organizations may have trouble opening the csv files produced.
+
+In that case you can try ASCII encoding the file and setting the row delimieter to CRLF with the following commands,
+```bash
+cat 2018.csv | iconv -c -t ASCII//IGNORE > 2018_ascii_dos.csv
+unix2dos 2018_ascii_dos.csv
+```
