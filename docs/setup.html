@@ -19,9 +19,9 @@
  <!--/radix_placeholder_import_source-->
 
   <!--radix_placeholder_meta_tags-->
-  <title>NLx Jobs Data Processing</title>
+  <title>NLx Jobs Data Processing: SQL Setup</title>
   
-  <meta property="description" itemprop="description" content="GitHub repository documentation for NLx jobs data processing"/>
+  <meta property="description" itemprop="description" content="Detailed information for SQL database setup."/>
   
   <link rel="icon" type="image/png" href="imgs/nlxCobranded.png"/>
   
@@ -31,22 +31,22 @@
   <meta name="article:author" content="Logan Ripplinger"/>
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="NLx Jobs Data Processing"/>
+  <meta property="og:title" content="NLx Jobs Data Processing: SQL Setup"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="GitHub repository documentation for NLx jobs data processing"/>
+  <meta property="og:description" content="Detailed information for SQL database setup."/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="NLx Jobs Data Processing"/>
   
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="NLx Jobs Data Processing"/>
-  <meta property="twitter:description" content="GitHub repository documentation for NLx jobs data processing"/>
+  <meta property="twitter:title" content="NLx Jobs Data Processing: SQL Setup"/>
+  <meta property="twitter:description" content="Detailed information for SQL database setup."/>
   
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["NLx Jobs Data Processing"]},{"type":"character","attributes":{},"value":["GitHub repository documentation for NLx jobs data processing\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Logan Ripplinger"]},{"type":"character","attributes":{},"value":["https://brighthive.io/"]},{"type":"character","attributes":{},"value":["BrightHive"]},{"type":"character","attributes":{},"value":["https://brighthive.io/"]}]}]},{"type":"character","attributes":{},"value":["2020-04-22"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["SQL Setup"]},{"type":"character","attributes":{},"value":["Detailed information for SQL database setup.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Logan Ripplinger"]},{"type":"character","attributes":{},"value":["https://brighthive.io/"]},{"type":"character","attributes":{},"value":["BrightHive"]},{"type":"character","attributes":{},"value":["https://brighthive.io/"]}]}]},{"type":"character","attributes":{},"value":["2020-04-22"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -1313,7 +1313,7 @@
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"NLx Jobs Data Processing","description":"GitHub repository documentation for NLx jobs data processing","authors":[{"author":"Logan Ripplinger","authorURL":"https://brighthive.io/","affiliation":"BrightHive","affiliationURL":"https://brighthive.io/"}],"publishedDate":"2020-04-22T00:00:00.000-04:00","citationText":"Ripplinger, 2020"}
+{"title":"SQL Setup","description":"Detailed information for SQL database setup.","authors":[{"author":"Logan Ripplinger","authorURL":"https://brighthive.io/","affiliation":"BrightHive","affiliationURL":"https://brighthive.io/"}],"publishedDate":"2020-04-22T00:00:00.000-04:00","citationText":"Ripplinger, 2020"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1345,8 +1345,8 @@
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>NLx Jobs Data Processing</h1>
-<p>GitHub repository documentation for NLx jobs data processing</p>
+<h1>SQL Setup</h1>
+<p>Detailed information for SQL database setup.</p>
 </div>
 
 <div class="d-byline">
@@ -1359,26 +1359,193 @@
 <h3 class="d-toc-header">Table of Contents</h3>
 <nav class="d-toc" id="TOC">
 <ul>
-<li><a href="#purpose">Purpose</a></li>
-<li><a href="#original-code">Original code</a><ul>
-<li><a href="#links-to-branches">Links to Branches</a></li>
+<li><a href="#sql-setup">SQL Setup</a><ul>
+<li><a href="#create-a-windows-sql-server">Create a Windows SQL Server</a></li>
+<li><a href="#connect-to-windows-server">Connect to Windows Server</a></li>
+<li><a href="#download-the-nlx.bak-file">Download the NLx.bak File</a><ul>
+<li><a href="#use-aws-cli">Use AWS CLI</a></li>
+<li><a href="#download-and-install-s3browser">Download and Install S3Browser</a></li>
+<li><a href="#download-through-the-web-browser">Download Through the Web Browser</a></li>
 </ul></li>
-<li><a href="#last-updated">Last Updated</a></li>
-<li><a href="#google-doc">Google Doc</a></li>
+<li><a href="#restore-the-nlx.bak-file">Restore the NLx.bak File</a></li>
+<li><a href="#add-indexes">Add Indexes</a></li>
+<li><a href="#additional-instructions">Additional Instructions</a></li>
+<li><a href="#prepare-for-running-python-script">Prepare for Running Python Script</a></li>
+<li><a href="#prepare-the-db-for-the-python-script">Prepare the db for the Python Script</a></li>
+<li><a href="#prepare-the-sync_nlx.py-script">Prepare the <code>sync_nlx.py</code> Script</a></li>
+<li><a href="#run-the-nlx_sync.py-script">Run the <code>nlx_sync.py</code> Script</a></li>
+<li><a href="#run-the-second-python-script">Run the Second Python Script</a></li>
+</ul></li>
 </ul>
 </nav>
 <hr class="d-toc-separator"/>
-<h1 id="purpose">Purpose</h1>
-<p>This GitHub repository contains the code base for producing flat files from NLx jobs data stored in a SQL database. Additional documentation is also provided below for preparing the NLx jobs data for conversion to flat files from a SQL database.</p>
-<h1 id="original-code">Original code</h1>
-<p>Please see the <code>original-code</code> branch of this repository for the original code. The <code>master</code> branch of this repository, intended for this specific use case, is a version of this code base that includes some improvements and removes some features.</p>
-<h2 id="links-to-branches">Links to Branches</h2>
-<p><a href="https://github.com/brighthive/skills-import/tree/original-code">original-code branch</a><br />
-<a href="https://github.com/brighthive/skills-import">master branch</a></p>
-<h1 id="last-updated">Last Updated</h1>
-<p>This documentation was last updated Apr 22, 2020 at 09:47 AM</p>
-<h1 id="google-doc">Google Doc</h1>
-<p>A version of this documentation can also be found in this publicly available <a href="https://docs.google.com/document/d/1_Bz1zeICXzgwQC_N637CQIyxHeRwMuSV5FG7GLDO9IM/edit?usp=sharing">Google Doc</a> for in-depth technical notes on how to setup this repo.</p>
+<h1 id="sql-setup">SQL Setup</h1>
+<p>This section details how to restore the SQL Server backup on a Windows AWS Server. This documentation assumes that you have to use Windows SQL Server to restore the backup but that is probably not true.</p>
+<h2 id="create-a-windows-sql-server">Create a Windows SQL Server</h2>
+<ol type="1">
+<li>On AWS launch a new EC2 server.</li>
+<li>For the AMI search “SQL Server” and select “Microsoft Windows Server 2019 with SQL Server 2019 Standard”.</li>
+<li>For choosing an Instance Type I’ve tried a few. I found the queries to be very slow and couldn’t identify a blocking reason (I/O, CPU, Network, Queries, etc). So I can probably recommend any instance that has 16 GB of memory is really all you need.
+<ul>
+<li>I’ve tried ‘m5a.8xlarge’ and i3 storage-optimized. They don’t seem to increase performance.</li>
+<li>If you are using a storage-optimized instance-type install AWS drivers so that windows can see the drive,
+<ul>
+<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/aws-nvme-drivers.html" class="uri">https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/aws-nvme-drivers.html</a></li>
+<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ssd-instance-store.html" class="uri">https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ssd-instance-store.html</a></li>
+<li>Then once you are in windows open disk management and format the additional drive and ensure you install the backup to the newly partitioned drive (probably D:)</li>
+<li>I had to use this for a h1 type instance – <a href="https://social.technet.microsoft.com/Forums/en-US/e67d6b93-8c8f-4f6c-8228-45d73e0186db/how-to-make-offline-hard-disk-online?forum=w7itprogeneral" class="uri">https://social.technet.microsoft.com/Forums/en-US/e67d6b93-8c8f-4f6c-8228-45d73e0186db/how-to-make-offline-hard-disk-online?forum=w7itprogeneral</a></li>
+</ul></li>
+</ul></li>
+<li>Set the EBS or root volume size to 2000gb (if using storage-optimized then set root ebs to minimum, 50 GB)</li>
+<li>I have been disabling MS SQL port access and only allowing RDP to my IP for security reasons.</li>
+<li>Launch it</li>
+</ol>
+<h2 id="connect-to-windows-server">Connect to Windows Server</h2>
+<ol type="1">
+<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/connecting_to_windows_instance.html#connect-rdp" class="uri">https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/connecting_to_windows_instance.html#connect-rdp</a>
+<ul>
+<li>Wait roughly 4 minutes until after the instance is launched.</li>
+<li>Go to AWS and select your EC2 instance and click connect</li>
+<li>Click get windows password</li>
+<li>You may need to provide your key used to secure the instance to decrypt the password</li>
+</ul></li>
+</ol>
+<h2 id="download-the-nlx.bak-file">Download the NLx.bak File</h2>
+<p>This section will outline three options available to you.</p>
+<h3 id="use-aws-cli">Use AWS CLI</h3>
+<ol type="1">
+<li>Install AWS Tools for Windows Powershell</li>
+<li>Generate credentials: Set-AWSCredentials -AccessKey {…} -SecretKey {…} -StoreAs MyProfileName</li>
+<li>Restart powershell</li>
+<li>Set the profile with:
+<ul>
+<li>Set-AWSCredential -ProfileName MyProfileName</li>
+</ul></li>
+<li>To download to local disk: Copy-S3Object -BucketName your-s3-bucket-name -Key NLX/LMI-Oct2015.bak -LocalFile ‘C:Documents-Oct2015.bak’</li>
+</ol>
+<h3 id="download-and-install-s3browser">Download and Install S3Browser</h3>
+<p><strong><em>As a note: this is the preferred method. Additionally, it is recommeded that you buy premium ($30) to download faster</em></strong></p>
+<ol type="1">
+<li>Open internet explorer
+<ul>
+<li>Go to internet options</li>
+<li>Select security</li>
+<li>Select internet</li>
+<li>Select custom level</li>
+<li>Scroll down and click enable file download</li>
+</ul></li>
+<li>Download google chrome</li>
+<li>Download and install S3Browser for faster downloads
+<ul>
+<li>Add IAM access and secret key to account to gain access to s3</li>
+<li>Add the key to use the pro version</li>
+<li>Select the options and mark concurrent downloads to 10~20</li>
+</ul></li>
+<li>Download the NLX.bak file
+<ul>
+<li>Open s3 browser</li>
+<li>Download the file from s3
+<ul>
+<li>The file will download in many parts</li>
+<li>After the files are downloaded it will take awhile to merge the files locally into one nlx.bak file</li>
+</ul></li>
+</ul></li>
+</ol>
+<h3 id="download-through-the-web-browser">Download Through the Web Browser</h3>
+<ol type="1">
+<li>Open internet explorer
+<ul>
+<li>Go to internet options</li>
+<li>Select security</li>
+<li>Select internet</li>
+<li>Select custom level</li>
+<li>Scroll down and click enable file download</li>
+</ul></li>
+<li>Download google chrome</li>
+<li>Login to AWS S3 and download your file</li>
+</ol>
+<h2 id="restore-the-nlx.bak-file">Restore the NLx.bak File</h2>
+<ol type="1">
+<li>Click windows and search for studio</li>
+<li>Copy down the server name in the connect window for the python script later – if its blank click more</li>
+<li>Start up SQL Server Management Studio, right-click on databases, ‘Restore Database’, pick file in device,</li>
+<li>Screen will think for a minute once u select the file</li>
+<li>Once u regain control select ok</li>
+</ol>
+<h2 id="add-indexes">Add Indexes</h2>
+<p>You will need to wait some time for the database to restore. Final step is to ADD INDEXES to the new database!</p>
+<p>Click each table and add a non-cluster index for <code>generatedJobId</code> and/or <code>applicationId</code> when the table has it. This should speed your queries up big time. You may also want to add an index to the datetime fields as well.</p>
+<h2 id="additional-instructions">Additional Instructions</h2>
+<p>The instructions below are included if you are planning to run a python script to process with the server. You may not have access to the provided python script at this time so these are left here for your reference.</p>
+<h2 id="prepare-for-running-python-script">Prepare for Running Python Script</h2>
+<ol type="1">
+<li>Download Notepad++ (or other code editor)</li>
+<li>Install python if it isn’t already (google python install)</li>
+<li>Install git on windows - <a href="https://git-scm.com/download/win" class="uri">https://git-scm.com/download/win</a></li>
+<li>Install pip on windows to path if it isn’t already (check by typing ‘pip’ into powershell after restarting powershell)</li>
+<li>Upgrade pip <code>pip install --upgrade pip</code></li>
+<li>Install pipenv and add to path - <a href="https://docs.python-guide.org/dev/virtualenvs/" class="uri">https://docs.python-guide.org/dev/virtualenvs/</a>
+<ul>
+<li>pip install –user pipenv</li>
+<li><a href="https://pipenv-fork.readthedocs.io/en/latest/install.html#installing-pipenv" class="uri">https://pipenv-fork.readthedocs.io/en/latest/install.html#installing-pipenv</a></li>
+</ul></li>
+</ol>
+<h2 id="prepare-the-db-for-the-python-script">Prepare the db for the Python Script</h2>
+<p><em>This step may be completed while downloading the .bak file</em></p>
+<ol type="1">
+<li>Create a database user for the python script
+<ul>
+<li>In sql server management studio, click security -&gt; logins</li>
+<li>Right click add new user</li>
+<li>Name pytest</li>
+<li>Give strong password</li>
+<li>Go to user mapping and add access to the restored database</li>
+<li>Add sql_readaccess to the permissions of the restored database</li>
+</ul></li>
+<li>You may or may not be required to set the login type to windows authentication and sql server access
+<ul>
+<li>In the object explorer click the SERVER not the restored database</li>
+<li>Right click properties</li>
+<li>Select the security tab</li>
+<li>Select windows and sql server login</li>
+<li>Click ok</li>
+<li>Right click the SERVER again and click restart to apply the changes</li>
+</ul></li>
+</ol>
+<h2 id="prepare-the-sync_nlx.py-script">Prepare the <code>sync_nlx.py</code> Script</h2>
+<p><em>This step may be completed while downloading the .bak file</em></p>
+<ol type="1">
+<li>Get the repo
+<ul>
+<li>Login to github on the machine through chrome</li>
+<li>Go to <a href="https://github.com/workforce-data-initiative/skills-import-private" class="uri">https://github.com/workforce-data-initiative/skills-import-private</a></li>
+<li>Click download repo</li>
+<li>Extract the zip file to c:-blah-blah</li>
+</ul></li>
+<li>Install requirements
+<ul>
+<li>In the requirements.txt file add ‘#egg=skills_util’ to the git url</li>
+<li>Setup pipenv env with ‘pipenv –python 3.8’ (assuming thats the version you downloaded)
+<ul>
+<li>This step should generate a Pipfile from your requirements file. If it does not produce a pipfile with your items then do the following – install the requirements <code>pipenv install -r requirements.txt</code></li>
+</ul></li>
+<li>Install precompiled binary for pymssql
+<ul>
+<li>Download from here - <a href="https://www.lfd.uci.edu/~gohlke/pythonlibs/#pymssq" class="uri">https://www.lfd.uci.edu/~gohlke/pythonlibs/#pymssq</a></li>
+<li>Move it to the project folder</li>
+<li><code>pipenv install pymssql.whl</code> +<code>pipenv install pyodbc</code> if you are using the modified script</li>
+<li>Install Visual Studio 2015, 2017 and 2019 x64 <a href="https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads" class="uri">https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads</a></li>
+</ul></li>
+</ul></li>
+</ol>
+<h2 id="run-the-nlx_sync.py-script">Run the <code>nlx_sync.py</code> Script</h2>
+<p><em>This script creates the CSV files</em></p>
+<ol type="1">
+<li>Pipenv run <code>sync_nlx.py</code></li>
+<li>This should run for a long time (5+ hours potentially)</li>
+</ol>
+<h2 id="run-the-second-python-script">Run the Second Python Script</h2>
+<p><em>This script creates the JobPosting formatted files</em></p>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

@@ -1,0 +1,47 @@
+---
+title: "Repository Usage"
+description: |
+  Detailed information for repository usage.
+author:
+  - name: Logan Ripplinger
+    url: https://brighthive.io/
+    affiliation: BrightHive
+    affiliation_url: https://brighthive.io/
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+# Using This Repo
+
+## Extract a flat file
+
+Open `sync_nlx` and set the variables correctly.
+
+```
+pipenv run sync_nlx.py
+```
+
+The original code compresses and pushes the flat files to S3, this version does not. It can be easily copy and pasted to add that functionality by going to the `original-code` branch.
+
+Compress your flat file (gz preferably) and send it whereever you need to.
+
+If instead you want to create the [schema.org](https://schema.org/) files continue to the next step without compressing.
+
+## Conversion to [schema.org](https://schema.org/)
+
+Set the correct variables in `nlx.py` and run the code snippet below.
+
+```
+pipenv run nlx.py
+```
+
+# Troubleshooting
+
+Some organizations may have trouble opening the csv files produced.
+
+In that case you can try ASCII encoding the file and setting the row delimieter to CRLF with the following commands.
+
+```bash
+cat 2018.csv | iconv -c -t ASCII//IGNORE > 2018_ascii_dos.csv
+unix2dos 2018_ascii_dos.csv
+```

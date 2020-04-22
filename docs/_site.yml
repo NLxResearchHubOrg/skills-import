@@ -1,0 +1,26 @@
+---
+name: "nlxJobsDataProcessing"
+title: "NLx Jobs Data Processing"
+favicon: imgs/nlxCobranded.png
+output_dir: "."
+navbar:
+  logo:
+    image: imgs/nlxResearchHub.png
+    href: http://nlx.org/
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Usage"
+      href: usage.html
+    - text: "SQL Setup"
+      href: setup.html
+  right:
+    - icon: fab fa-github fa-2x
+      href: https://github.com/brighthive/skills-import
+    - icon: fab fa-twitter fa-2x
+      href: https://twitter.com/usnlx?lang=en
+output:
+  distill::distill_article:
+    css: style/styles.css
+    toc: true
+---
