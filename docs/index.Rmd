@@ -1,0 +1,217 @@
+---
+title: "NLx Jobs Data Processing"
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    toc_float: true
+---
+
+# Purpose
+
+This GitHub repository contains the code base for producing flat files from NLx jobs data stored in a SQL database. Additional documentation is also provided below for preparing the NLx jobs data for conversion to flat files.
+
+# Original code
+
+Please see the `original-code` branch of this repository for the original code. The `master` branch of this repository, intended for this specific use case, is a version of this code base that includes some improvements and removes some features.
+
+## Links to Branches
+
+[original-code branch](https://github.com/brighthive/skills-import/tree/original-code)  
+[master branch](https://github.com/brighthive/skills-import)
+
+# SQL Setup
+
+This section details how to restore the SQL Server backup on a Windows AWS Server. This documentation assumes that you have to use Windows SQL Server to restore the backup but that is probably not true.
+
+## Create a Windows SQL Server
+
+1. On AWS launch a new EC2 server.
+2. For the AMI search “SQL Server” and select “Microsoft Windows Server 2019 with SQL Server 2019 Standard”.
+3. For choosing an Instance Type I’ve tried a few. I found the queries to be very slow and couldn’t identify a blocking reason (I/O, CPU, Network, Queries, etc). So I can probably recommend any instance that has 16 GB of memory is really all you need.
+    + I’ve tried ‘m5a.8xlarge’ and i3 storage-optimized. They don’t seem to increase performance.
+    + If you are using a storage-optimized instance-type install AWS drivers so that windows can see the drive,
+      + https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/aws-nvme-drivers.html
+      + https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ssd-instance-store.html
+      + Then once you are in windows open disk management and format the additional drive and ensure you install the backup to the newly partitioned drive (probably D:\)
+      + I had to use this for a h1 type instance -- https://social.technet.microsoft.com/Forums/en-US/e67d6b93-8c8f-4f6c-8228-45d73e0186db/how-to-make-offline-hard-disk-online?forum=w7itprogeneral 
+4. Set the EBS or root volume size to 2000gb (if using storage-optimized then set root ebs to minimum, 50 GB)
+5. I have been disabling MS SQL port access and only allowing RDP to my IP for security reasons.
+6. Launch it  
+
+## Connect to Windows Server
+
+1. https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/connecting_to_windows_instance.html#connect-rdp
+    + Wait roughly 4 minutes until after the instance is launched.
+    + Go to AWS and select your EC2 instance and click connect
+    + Click get windows password
+    + You may need to provide your key used to secure the instance to decrypt the password
+    
+## Download the NLx.bak File
+
+This section will outline three options available to you.
+
+### Use AWS CLI
+
+1. Install AWS Tools for Windows Powershell
+2. Generate credentials: Set-AWSCredentials -AccessKey {...} -SecretKey {...} -StoreAs MyProfileName
+3. Restart powershell
+4. Set the profile with:
+    + Set-AWSCredential -ProfileName MyProfileName
+5. To download to local disk: Copy-S3Object -BucketName your-s3-bucket-name -Key NLX/LMI-Oct2015.bak -LocalFile 'C:\Users\Public\Public Documents\LMI-Oct2015.bak'
+
+### Download and Install S3Browser
+
+***As a note: this is the preferred method. Additionally, it is recommeded that you buy premium ($30) to download faster***
+
+1. Open internet explorer
+    + Go to internet options
+    + Select security
+    + Select internet
+    + Select custom level
+    + Scroll down and click enable file download
+2. Download google chrome
+3. Download and install S3Browser for faster downloads
+    + Add IAM access and secret key to account to gain access to s3
+    + Add the key to use the pro version
+    + Select the options and mark concurrent downloads to 10~20
+4. Download the NLX.bak file
+    + Open s3 browser
+    + Download the file from s3
+      + The file will download in many parts
+      + After the files are downloaded it will take awhile to merge the files locally into one nlx.bak file
+
+### Download Through the Web Browser
+
+1. Open internet explorer
+    + Go to internet options
+    + Select security
+    + Select internet
+    + Select custom level
+    + Scroll down and click enable file download
+2. Download google chrome
+3. Login to AWS S3 and download your file
+
+## Restore the NLx.bak File
+
+1. Click windows and search for studio
+2. Copy down the server name in the connect window for the python script later -- if its blank click more
+3. Start up SQL Server Management Studio, right-click on databases, 'Restore Database', pick file in device,
+4. Screen will think for a minute once u select the file
+5. Once u regain control select ok
+
+## Add Indexes
+
+You will need to wait some time for the database to restore. Final step is to ADD INDEXES to the new database!
+
+Click each table and add a non-cluster index for `generatedJobId` and/or `applicationId` when the table has it. This should speed your queries up big time. You may also want to add an index to the datetime fields as well.
+
+## Additional Instructions
+
+The instructions below are included if you are planning to run a python script to process with the server. You may not have access to the provided python script at this time so these are left here for your reference.
+
+## Prepare for Running Python Script
+
+1. Download Notepad++ (or other code editor)
+2. Install python if it isn’t already (google python install)
+3. Install git on windows - https://git-scm.com/download/win
+4. Install pip on windows to path if it isn’t already (check by typing ‘pip’ into powershell after restarting powershell)
+5. Upgrade pip `pip install --upgrade pip`
+6. Install pipenv and add to path - https://docs.python-guide.org/dev/virtualenvs/
+    + pip install --user pipenv
+    + https://pipenv-fork.readthedocs.io/en/latest/install.html#installing-pipenv
+
+## Prepare the db for the Python Script
+
+*This step may be completed while downloading the .bak file*
+
+1. Create a database user for the python script
+    + In sql server management studio, click security -> logins
+    + Right click add new user
+    + Name pytest
+    + Give strong password
+    + Go to user mapping and add access to the restored database
+    + Add sql_readaccess to the permissions of the restored database
+2. You may or may not be required to set the login type to windows authentication and sql server access
+    + In the object explorer click the SERVER not the restored database
+     + Right click properties
+     + Select the security tab
+     + Select windows and sql server login
+     + Click ok
+     + Right click the SERVER again and click restart to apply the changes
+
+## Prepare the `sync_nlx.py` Script
+
+*This step may be completed while downloading the .bak file*
+
+1. Get the repo
+    + Login to github on the machine through chrome
+    + Go to https://github.com/workforce-data-initiative/skills-import-private
+    + Click download repo
+    + Extract the zip file to c:\users\public\documents\skills-blah-blah
+2. Install requirements
+    + In the requirements.txt file add ‘#egg=skills_util’ to the git url
+    + Setup pipenv env with ‘pipenv --python 3.8’ (assuming thats the version you downloaded)
+      + This step should generate a Pipfile from your requirements file. If it does not produce a pipfile with your items then do the following -- install the requirements `pipenv install -r requirements.txt`
+    + Install precompiled binary for pymssql	
+      + Download from here - https://www.lfd.uci.edu/~gohlke/pythonlibs/#pymssq
+      + Move it to the project folder
+      + `pipenv install pymssql.whl`
+    +`pipenv install pyodbc` if you are using the modified script
+      + Install Visual Studio 2015, 2017 and 2019 x64 https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads
+
+## Run the `nlx_sync.py` Script
+
+*This script creates the CSV files*
+
+1. Pipenv run `sync_nlx.py`
+2. This should run for a long time (5+ hours potentially)
+
+## Run the Second Python Script
+
+*This script creates the JobPosting formatted files*
+
+# Using This Repo
+
+## Extract a flat file
+
+Open `sync_nlx` and set the variables correctly.
+
+```
+pipenv run sync_nlx.py
+```
+
+The original code compresses and pushes the flat files to S3, this version does not. It can be easily copy and pasted to add that functionality by going to the `original-code` branch.
+
+Compress your flat file (gz preferably) and send it whereever you need to.
+
+If instead you want to create the [schema.org](https://schema.org/) files continue to the next step without compressing.
+
+## Conversion to [schema.org](https://schema.org/)
+
+Set the correct variables in `nlx.py` and run the code snippet below.
+
+```
+pipenv run nlx.py
+```
+
+# Troubleshooting
+
+Some organizations may have trouble opening the csv files produced.
+
+In that case you can try ASCII encoding the file and setting the row delimieter to CRLF with the following commands.
+
+```bash
+cat 2018.csv | iconv -c -t ASCII//IGNORE > 2018_ascii_dos.csv
+unix2dos 2018_ascii_dos.csv
+```
+
+# Last Updated
+
+This documentation was `r sprintf('last updated %s', format(Sys.time(), '%b %d, %Y at %I:%M %p'))`
+
+# Google Doc
+
+A version of this documentation can also be found in this publicly available  [Google Doc](https://docs.google.com/document/d/1_Bz1zeICXzgwQC_N637CQIyxHeRwMuSV5FG7GLDO9IM/edit?usp=sharing) for indepth technical notes on how to setup this repo.
+
+<img src='imgs/nlx-logo-4c-cobranded-NASWA-DE.png' style='display:block;width:50%;margin-left:auto;margin-right:auto;'>

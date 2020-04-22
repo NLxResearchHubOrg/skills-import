@@ -87,3 +87,9 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+
+.Rproj.user
+.Rproj
+.DS_Store
+.Rhistory
