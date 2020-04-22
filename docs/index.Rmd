@@ -1,0 +1,33 @@
+---
+title: "NLx Jobs Data Processing"
+description: |
+  GitHub repository documentation for NLx jobs data processing
+author:
+  - name: Logan Ripplinger
+    url: https://brighthive.io/
+    affiliation: BrightHive
+    affiliation_url: https://brighthive.io/
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+# Purpose
+
+This GitHub repository contains the code base for producing flat files from NLx jobs data stored in a SQL database. Additional documentation is also provided below for preparing the NLx jobs data for conversion to flat files from a SQL database.
+
+# Original code
+
+Please see the `original-code` branch of this repository for the original code. The `master` branch of this repository, intended for this specific use case, is a version of this code base that includes some improvements and removes some features.
+
+## Links to Branches
+
+[original-code branch](https://github.com/brighthive/skills-import/tree/original-code)  
+[master branch](https://github.com/brighthive/skills-import)
+
+# Last Updated
+
+This documentation was `r sprintf('last updated %s', format(Sys.time(), '%b %d, %Y at %I:%M %p'))`
+
+# Google Doc
+
+A version of this documentation can also be found in this publicly available  [Google Doc](https://docs.google.com/document/d/1_Bz1zeICXzgwQC_N637CQIyxHeRwMuSV5FG7GLDO9IM/edit?usp=sharing) for in-depth technical notes on how to setup this repo.
