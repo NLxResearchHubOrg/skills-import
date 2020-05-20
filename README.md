@@ -12,15 +12,15 @@ Please see [this documentation](https://docs.google.com/document/d/1_Bz1zeICXzgw
 
 1. Run the script to scrap the database,
 
-  ```
-  pipenv run sync_nlx.py
-  ```
+    ```
+    pipenv run sync_nlx.py
+    ```
 
-  The original code compresses and pushes the flat files to S3, this version does not. It can be easily copy and pasted to add that functionality by going to the `original-code` branch.
+    The original code compresses and pushes the flat files to S3, this version does not. It can be easily copy and pasted to add that functionality by going to the `original-code` branch.
 
 1. Compress your flat file (gz preferably) and send it wherever you need to.
 
-  If instead you want to create the schema.org files continue to the next step without compressing.
+    If instead you want to create the schema.org files continue to the next step without compressing.
 
 ### Convert flat file (CSV) to schema.org JobPosting
 
@@ -28,9 +28,9 @@ Please see [this documentation](https://docs.google.com/document/d/1_Bz1zeICXzgw
 
 1. Run the application
 
-```
-pipenv run nlx.py
-```
+    ```
+    pipenv run nlx.py
+    ```
 
 ## Troubleshooting
 
