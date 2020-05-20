@@ -14,7 +14,7 @@ pipenv run sync_nlx.py
 
 The original code compresses and pushes the flat files to S3, this version does not. It can be easily copy and pasted to add that functionality by going to the `original-code` branch.
 
-Compress your flat file (gz preferably) and send it whereever you need to.
+Compress your flat file (gz preferably) and send it wherever you need to.
 
 If instead you want to create the schema.org files continue to the next step without compressing.
 
