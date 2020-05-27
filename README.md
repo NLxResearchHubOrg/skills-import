@@ -2,7 +2,7 @@
 
 ## How to set this repo up
 
-Please see [this documentation](https://docs.google.com/document/d/1_Bz1zeICXzgwQC_N637CQIyxHeRwMuSV5FG7GLDO9IM/edit?usp=sharing) for indepth technical notes on how to setup this repo.
+Please see [this documentation](https://nlxresearchhuborg.github.io/skills-import/setup.html) for indepth technical notes on how to setup this repo.
 
 ## How to use
 
