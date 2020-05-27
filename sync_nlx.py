@@ -150,6 +150,7 @@ j.country,
 [link],
 [sourceState],
 [title],
+[fileName].
 onet.value as onet_code,
 naics.value as naics_code,
 mined.value as min_education,
