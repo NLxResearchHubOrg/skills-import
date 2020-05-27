@@ -8,6 +8,7 @@ author:
     affiliation: BrightHive
     affiliation_url: https://brighthive.io/
 date: "`r Sys.Date()`"
+mainfont: Helvetica Neue
 output: distill::distill_article
 ---
 
