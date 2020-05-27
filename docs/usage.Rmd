@@ -13,33 +13,37 @@ output: distill::distill_article
 
 # Using This Repo
 
-## Extract a flat file
+## Extract from database to a flat file (CSV)
 
-Open `sync_nlx` and set the variables correctly.
+1. Open `sync_nlx` and set the variables throughout the file correctly.
 
-```
-pipenv run sync_nlx.py
-```
+1. Run the script to scrap the database,
 
-The original code compresses and pushes the flat files to S3, this version does not. It can be easily copy and pasted to add that functionality by going to the `original-code` branch.
+    ```
+    pipenv run sync_nlx.py
+    ```
 
-Compress your flat file (gz preferably) and send it whereever you need to.
+    The original code compresses and pushes the flat files to S3, this version does not. It can be easily copy and pasted to add that functionality by going to the `original-code` branch.
 
-If instead you want to create the [schema.org](https://schema.org/) files continue to the next step without compressing.
+1. Compress your flat file (gz preferably) and send it wherever you need to.
 
-## Conversion to [schema.org](https://schema.org/)
+    If instead you want to create the schema.org files continue to the next step without compressing.
 
-Set the correct variables in `nlx.py` and run the code snippet below.
+## Convert flat file (CSV) to schema.org JobPosting
 
-```
-pipenv run nlx.py
-```
+1. Set the correct variables in `nlx.py`
 
-# Troubleshooting
+1. Run the application
+
+    ```
+    pipenv run nlx.py
+    ```
+
+## Troubleshooting
 
 Some organizations may have trouble opening the csv files produced.
 
-In that case you can try ASCII encoding the file and setting the row delimieter to CRLF with the following commands.
+In that case you can try ASCII encoding the file and setting the row delimieter to CRLF with the following commands,
 
 ```bash
 cat 2018.csv | iconv -c -t ASCII//IGNORE > 2018_ascii_dos.csv
