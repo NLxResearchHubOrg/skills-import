@@ -14,6 +14,8 @@ navbar:
       href: usage.html
     - text: "SQL Setup"
       href: setup.html
+    - text: "Doc Site"
+      href: documentation-site.html
   right:
     - icon: fab fa-github fa-2x
       href: https://github.com/brighthive/skills-import

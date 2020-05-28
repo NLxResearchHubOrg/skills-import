@@ -26,8 +26,8 @@
   <link rel="icon" type="image/png" href="imgs/nlxCobranded.png"/>
   
   <!--  https://schema.org/Article -->
-  <meta property="article:published" itemprop="datePublished" content="2020-04-22"/>
-  <meta property="article:created" itemprop="dateCreated" content="2020-04-22"/>
+  <meta property="article:published" itemprop="datePublished" content="2020-05-28"/>
+  <meta property="article:created" itemprop="dateCreated" content="2020-05-28"/>
   <meta name="article:author" content="Logan Ripplinger"/>
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
@@ -46,7 +46,7 @@
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Repository Usage"]},{"type":"character","attributes":{},"value":["Detailed information for repository usage.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Logan Ripplinger"]},{"type":"character","attributes":{},"value":["https://brighthive.io/"]},{"type":"character","attributes":{},"value":["BrightHive"]},{"type":"character","attributes":{},"value":["https://brighthive.io/"]}]}]},{"type":"character","attributes":{},"value":["2020-04-22"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Repository Usage"]},{"type":"character","attributes":{},"value":["Detailed information for repository usage.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Logan Ripplinger"]},{"type":"character","attributes":{},"value":["https://brighthive.io/"]},{"type":"character","attributes":{},"value":["BrightHive"]},{"type":"character","attributes":{},"value":["https://brighthive.io/"]}]}]},{"type":"character","attributes":{},"value":["2020-05-28"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -1313,7 +1313,7 @@
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Repository Usage","description":"Detailed information for repository usage.","authors":[{"author":"Logan Ripplinger","authorURL":"https://brighthive.io/","affiliation":"BrightHive","affiliationURL":"https://brighthive.io/"}],"publishedDate":"2020-04-22T00:00:00.000-04:00","citationText":"Ripplinger, 2020"}
+{"title":"Repository Usage","description":"Detailed information for repository usage.","authors":[{"author":"Logan Ripplinger","authorURL":"https://brighthive.io/","affiliation":"BrightHive","affiliationURL":"https://brighthive.io/"}],"publishedDate":"2020-05-28T00:00:00.000-04:00","citationText":"Ripplinger, 2020"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1328,6 +1328,7 @@
 <a href="index.html">Home</a>
 <a href="usage.html">Usage</a>
 <a href="setup.html">SQL Setup</a>
+<a href="documentation-site.html">Doc Site</a>
 </div>
 <div class="nav-right">
 <a href="https://github.com/brighthive/skills-import">
@@ -1346,13 +1347,13 @@
 
 <div class="d-title">
 <h1>Repository Usage</h1>
-<p>Detailed information for repository usage.</p>
+<p><p>Detailed information for repository usage.</p></p>
 </div>
 
 <div class="d-byline">
   Logan Ripplinger <a href="https://brighthive.io/" class="uri">https://brighthive.io/</a> (BrightHive)<a href="https://brighthive.io/" class="uri">https://brighthive.io/</a>
   
-<br/>2020-04-22
+<br/>2020-05-28
 </div>
 
 <div class="d-article">
@@ -1360,28 +1361,34 @@
 <nav class="d-toc" id="TOC">
 <ul>
 <li><a href="#using-this-repo">Using This Repo</a><ul>
-<li><a href="#extract-a-flat-file">Extract a flat file</a></li>
-<li><a href="#conversion-to-schema.org">Conversion to <span>schema.org</span></a></li>
-</ul></li>
+<li><a href="#extract-from-database-to-a-flat-file-csv">Extract from database to a flat file (CSV)</a></li>
+<li><a href="#convert-flat-file-csv-to-schema.org-jobposting">Convert flat file (CSV) to schema.org JobPosting</a></li>
 <li><a href="#troubleshooting">Troubleshooting</a></li>
+</ul></li>
 </ul>
 </nav>
 <hr class="d-toc-separator"/>
 <h1 id="using-this-repo">Using This Repo</h1>
-<h2 id="extract-a-flat-file">Extract a flat file</h2>
-<p>Open <code>sync_nlx</code> and set the variables correctly.</p>
+<h2 id="extract-from-database-to-a-flat-file-csv">Extract from database to a flat file (CSV)</h2>
+<ol type="1">
+<li><p>Open <code>sync_nlx</code> and set the variables throughout the file correctly.</p></li>
+<li><p>Run the script to scrap the database,</p>
 <pre><code>
 pipenv run sync_nlx.py</code></pre>
-<p>The original code compresses and pushes the flat files to S3, this version does not. It can be easily copy and pasted to add that functionality by going to the <code>original-code</code> branch.</p>
-<p>Compress your flat file (gz preferably) and send it whereever you need to.</p>
-<p>If instead you want to create the <a href="https://schema.org/">schema.org</a> files continue to the next step without compressing.</p>
-<h2 id="conversion-to-schema.org">Conversion to <a href="https://schema.org/">schema.org</a></h2>
-<p>Set the correct variables in <code>nlx.py</code> and run the code snippet below.</p>
+<p>The original code compresses and pushes the flat files to S3, this version does not. It can be easily copy and pasted to add that functionality by going to the <code>original-code</code> branch.</p></li>
+<li><p>Compress your flat file (gz preferably) and send it wherever you need to.</p>
+<p>If instead you want to create the schema.org files continue to the next step without compressing.</p></li>
+</ol>
+<h2 id="convert-flat-file-csv-to-schema.org-jobposting">Convert flat file (CSV) to schema.org JobPosting</h2>
+<ol type="1">
+<li><p>Set the correct variables in <code>nlx.py</code></p></li>
+<li><p>Run the application</p>
 <pre><code>
-pipenv run nlx.py</code></pre>
-<h1 id="troubleshooting">Troubleshooting</h1>
+pipenv run nlx.py</code></pre></li>
+</ol>
+<h2 id="troubleshooting">Troubleshooting</h2>
 <p>Some organizations may have trouble opening the csv files produced.</p>
-<p>In that case you can try ASCII encoding the file and setting the row delimieter to CRLF with the following commands.</p>
+<p>In that case you can try ASCII encoding the file and setting the row delimieter to CRLF with the following commands,</p>
 <pre class="bash"><code>
 cat 2018.csv | iconv -c -t ASCII//IGNORE &gt; 2018_ascii_dos.csv
 unix2dos 2018_ascii_dos.csv</code></pre>

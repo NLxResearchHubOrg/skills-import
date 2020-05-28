@@ -19,34 +19,34 @@
  <!--/radix_placeholder_import_source-->
 
   <!--radix_placeholder_meta_tags-->
-  <title>NLx Jobs Data Processing: SQL Setup</title>
+  <title>NLx Jobs Data Processing: Documentation Site</title>
   
-  <meta property="description" itemprop="description" content="Detailed information for SQL database setup."/>
+  <meta property="description" itemprop="description" content="Detailed information for maintaining the documentation site on GitHub pages."/>
   
   <link rel="icon" type="image/png" href="imgs/nlxCobranded.png"/>
   
   <!--  https://schema.org/Article -->
   <meta property="article:published" itemprop="datePublished" content="2020-05-28"/>
   <meta property="article:created" itemprop="dateCreated" content="2020-05-28"/>
-  <meta name="article:author" content="Logan Ripplinger"/>
+  <meta name="article:author" content="Jason Jones"/>
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="NLx Jobs Data Processing: SQL Setup"/>
+  <meta property="og:title" content="NLx Jobs Data Processing: Documentation Site"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="Detailed information for SQL database setup."/>
+  <meta property="og:description" content="Detailed information for maintaining the documentation site on GitHub pages."/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="NLx Jobs Data Processing"/>
   
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="NLx Jobs Data Processing: SQL Setup"/>
-  <meta property="twitter:description" content="Detailed information for SQL database setup."/>
+  <meta property="twitter:title" content="NLx Jobs Data Processing: Documentation Site"/>
+  <meta property="twitter:description" content="Detailed information for maintaining the documentation site on GitHub pages."/>
   
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["SQL Setup"]},{"type":"character","attributes":{},"value":["Detailed information for SQL database setup.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Logan Ripplinger"]},{"type":"character","attributes":{},"value":["https://brighthive.io/"]},{"type":"character","attributes":{},"value":["BrightHive"]},{"type":"character","attributes":{},"value":["https://brighthive.io/"]}]}]},{"type":"character","attributes":{},"value":["2020-05-28"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Documentation Site"]},{"type":"character","attributes":{},"value":["Detailed information for maintaining the documentation site on GitHub pages.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Jason Jones"]},{"type":"character","attributes":{},"value":["https://brighthive.io/"]},{"type":"character","attributes":{},"value":["BrightHive"]},{"type":"character","attributes":{},"value":["https://brighthive.io/"]}]}]},{"type":"character","attributes":{},"value":["2020-05-28"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -1313,7 +1313,7 @@
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"SQL Setup","description":"Detailed information for SQL database setup.","authors":[{"author":"Logan Ripplinger","authorURL":"https://brighthive.io/","affiliation":"BrightHive","affiliationURL":"https://brighthive.io/"}],"publishedDate":"2020-05-28T00:00:00.000-04:00","citationText":"Ripplinger, 2020"}
+{"title":"Documentation Site","description":"Detailed information for maintaining the documentation site on GitHub pages.","authors":[{"author":"Jason Jones","authorURL":"https://brighthive.io/","affiliation":"BrightHive","affiliationURL":"https://brighthive.io/"}],"publishedDate":"2020-05-28T00:00:00.000-04:00","citationText":"Jones, 2020"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1346,12 +1346,12 @@
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>SQL Setup</h1>
-<p><p>Detailed information for SQL database setup.</p></p>
+<h1>Documentation Site</h1>
+<p><p>Detailed information for maintaining the documentation site on GitHub pages.</p></p>
 </div>
 
 <div class="d-byline">
-  Logan Ripplinger <a href="https://brighthive.io/" class="uri">https://brighthive.io/</a> (BrightHive)<a href="https://brighthive.io/" class="uri">https://brighthive.io/</a>
+  Jason Jones <a href="https://brighthive.io/" class="uri">https://brighthive.io/</a> (BrightHive)<a href="https://brighthive.io/" class="uri">https://brighthive.io/</a>
   
 <br/>2020-05-28
 </div>
@@ -1360,193 +1360,61 @@
 <h3 class="d-toc-header">Table of Contents</h3>
 <nav class="d-toc" id="TOC">
 <ul>
-<li><a href="#sql-setup">SQL Setup</a><ul>
-<li><a href="#create-a-windows-sql-server">Create a Windows SQL Server</a></li>
-<li><a href="#connect-to-windows-server">Connect to Windows Server</a></li>
-<li><a href="#download-the-nlx.bak-file">Download the NLx.bak File</a><ul>
-<li><a href="#use-aws-cli">Use AWS CLI</a></li>
-<li><a href="#download-and-install-s3browser">Download and Install S3Browser</a></li>
-<li><a href="#download-through-the-web-browser">Download Through the Web Browser</a></li>
+<li><a href="#tools">Tools</a><ul>
+<li><a href="#software">Software</a></li>
+<li><a href="#software-packages">Software Packages</a></li>
 </ul></li>
-<li><a href="#restore-the-nlx.bak-file">Restore the NLx.bak File</a></li>
-<li><a href="#add-indexes">Add Indexes</a></li>
-<li><a href="#additional-instructions">Additional Instructions</a></li>
-<li><a href="#prepare-for-running-python-script">Prepare for Running Python Script</a></li>
-<li><a href="#prepare-the-db-for-the-python-script">Prepare the db for the Python Script</a></li>
-<li><a href="#prepare-the-sync_nlx.py-script">Prepare the <code>sync_nlx.py</code> Script</a></li>
-<li><a href="#run-the-nlx_sync.py-script">Run the <code>nlx_sync.py</code> Script</a></li>
-<li><a href="#run-the-second-python-script">Run the Second Python Script</a></li>
-</ul></li>
+<li><a href="#site-creation">Site Creation</a></li>
+<li><a href="#workflow">Workflow</a></li>
+<li><a href="#site-location">Site Location</a></li>
+<li><a href="#site-build">Site Build</a></li>
+<li><a href="#pushing-changes">Pushing Changes</a></li>
 </ul>
 </nav>
 <hr class="d-toc-separator"/>
-<h1 id="sql-setup">SQL Setup</h1>
-<p>This section details how to restore the SQL Server backup on a Windows AWS Server. This documentation assumes that you have to use Windows SQL Server to restore the backup but that is probably not true.</p>
-<h2 id="create-a-windows-sql-server">Create a Windows SQL Server</h2>
+<h1 id="tools">Tools</h1>
+<p>All software and software packages used for the creation and maintenance of the GitHub pages documentation site are open source and completely free to use.</p>
+<h2 id="software">Software</h2>
 <ol type="1">
-<li>On AWS launch a new EC2 server.</li>
-<li>For the AMI search “SQL Server” and select “Microsoft Windows Server 2019 with SQL Server 2019 Standard”.</li>
-<li>For choosing an Instance Type I’ve tried a few. I found the queries to be very slow and couldn’t identify a blocking reason (I/O, CPU, Network, Queries, etc). So I can probably recommend any instance that has 16 GB of memory is really all you need.
-<ul>
-<li>I’ve tried ‘m5a.8xlarge’ and i3 storage-optimized. They don’t seem to increase performance.</li>
-<li>If you are using a storage-optimized instance-type install AWS drivers so that windows can see the drive,
-<ul>
-<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/aws-nvme-drivers.html" class="uri">https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/aws-nvme-drivers.html</a></li>
-<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ssd-instance-store.html" class="uri">https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ssd-instance-store.html</a></li>
-<li>Then once you are in windows open disk management and format the additional drive and ensure you install the backup to the newly partitioned drive (probably D:)</li>
-<li>I had to use this for a h1 type instance – <a href="https://social.technet.microsoft.com/Forums/en-US/e67d6b93-8c8f-4f6c-8228-45d73e0186db/how-to-make-offline-hard-disk-online?forum=w7itprogeneral" class="uri">https://social.technet.microsoft.com/Forums/en-US/e67d6b93-8c8f-4f6c-8228-45d73e0186db/how-to-make-offline-hard-disk-online?forum=w7itprogeneral</a></li>
-</ul></li>
-</ul></li>
-<li>Set the EBS or root volume size to 2000gb (if using storage-optimized then set root ebs to minimum, 50 GB)</li>
-<li>I have been disabling MS SQL port access and only allowing RDP to my IP for security reasons.</li>
-<li>Launch it</li>
+<li><a href="https://www.r-project.org/">R</a></li>
+<li><a href="https://rstudio.com/products/rstudio/download/">RStudio Desktop</a></li>
+<li><a href="https://git-scm.com/">Git</a></li>
 </ol>
-<h2 id="connect-to-windows-server">Connect to Windows Server</h2>
+<h2 id="software-packages">Software Packages</h2>
 <ol type="1">
-<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/connecting_to_windows_instance.html#connect-rdp" class="uri">https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/connecting_to_windows_instance.html#connect-rdp</a>
-<ul>
-<li>Wait roughly 4 minutes until after the instance is launched.</li>
-<li>Go to AWS and select your EC2 instance and click connect</li>
-<li>Click get windows password</li>
-<li>You may need to provide your key used to secure the instance to decrypt the password</li>
-</ul></li>
+<li><a href="https://github.com/rstudio/rmarkdown">rmarkdown</a></li>
+<li><a href="https://github.com/rstudio/distill">distill</a></li>
 </ol>
-<h2 id="download-the-nlx.bak-file">Download the NLx.bak File</h2>
-<p>This section will outline three options available to you.</p>
-<h3 id="use-aws-cli">Use AWS CLI</h3>
-<ol type="1">
-<li>Install AWS Tools for Windows Powershell</li>
-<li>Generate credentials: Set-AWSCredentials -AccessKey {…} -SecretKey {…} -StoreAs MyProfileName</li>
-<li>Restart powershell</li>
-<li>Set the profile with:
-<ul>
-<li>Set-AWSCredential -ProfileName MyProfileName</li>
-</ul></li>
-<li>To download to local disk: Copy-S3Object -BucketName your-s3-bucket-name -Key NLX/LMI-Oct2015.bak -LocalFile ‘C:Documents-Oct2015.bak’</li>
-</ol>
-<h3 id="download-and-install-s3browser">Download and Install S3Browser</h3>
-<p><strong><em>As a note: this is the preferred method. Additionally, it is recommeded that you buy premium ($30) to download faster</em></strong></p>
-<ol type="1">
-<li>Open internet explorer
-<ul>
-<li>Go to internet options</li>
-<li>Select security</li>
-<li>Select internet</li>
-<li>Select custom level</li>
-<li>Scroll down and click enable file download</li>
-</ul></li>
-<li>Download google chrome</li>
-<li>Download and install S3Browser for faster downloads
-<ul>
-<li>Add IAM access and secret key to account to gain access to s3</li>
-<li>Add the key to use the pro version</li>
-<li>Select the options and mark concurrent downloads to 10~20</li>
-</ul></li>
-<li>Download the NLX.bak file
-<ul>
-<li>Open s3 browser</li>
-<li>Download the file from s3
-<ul>
-<li>The file will download in many parts</li>
-<li>After the files are downloaded it will take awhile to merge the files locally into one nlx.bak file</li>
-</ul></li>
-</ul></li>
-</ol>
-<h3 id="download-through-the-web-browser">Download Through the Web Browser</h3>
-<ol type="1">
-<li>Open internet explorer
-<ul>
-<li>Go to internet options</li>
-<li>Select security</li>
-<li>Select internet</li>
-<li>Select custom level</li>
-<li>Scroll down and click enable file download</li>
-</ul></li>
-<li>Download google chrome</li>
-<li>Login to AWS S3 and download your file</li>
-</ol>
-<h2 id="restore-the-nlx.bak-file">Restore the NLx.bak File</h2>
-<ol type="1">
-<li>Click windows and search for studio</li>
-<li>Copy down the server name in the connect window for the python script later – if its blank click more</li>
-<li>Start up SQL Server Management Studio, right-click on databases, ‘Restore Database’, pick file in device,</li>
-<li>Screen will think for a minute once u select the file</li>
-<li>Once u regain control select ok</li>
-</ol>
-<h2 id="add-indexes">Add Indexes</h2>
-<p>You will need to wait some time for the database to restore. Final step is to ADD INDEXES to the new database!</p>
-<p>Click each table and add a non-cluster index for <code>generatedJobId</code> and/or <code>applicationId</code> when the table has it. This should speed your queries up big time. You may also want to add an index to the datetime fields as well.</p>
-<h2 id="additional-instructions">Additional Instructions</h2>
-<p>The instructions below are included if you are planning to run a python script to process with the server. You may not have access to the provided python script at this time so these are left here for your reference.</p>
-<h2 id="prepare-for-running-python-script">Prepare for Running Python Script</h2>
-<ol type="1">
-<li>Download Notepad++ (or other code editor)</li>
-<li>Install python if it isn’t already (google python install)</li>
-<li>Install git on windows - <a href="https://git-scm.com/download/win" class="uri">https://git-scm.com/download/win</a></li>
-<li>Install pip on windows to path if it isn’t already (check by typing ‘pip’ into powershell after restarting powershell)</li>
-<li>Upgrade pip <code>pip install --upgrade pip</code></li>
-<li>Install pipenv and add to path - <a href="https://docs.python-guide.org/dev/virtualenvs/" class="uri">https://docs.python-guide.org/dev/virtualenvs/</a>
-<ul>
-<li>pip install –user pipenv</li>
-<li><a href="https://pipenv-fork.readthedocs.io/en/latest/install.html#installing-pipenv" class="uri">https://pipenv-fork.readthedocs.io/en/latest/install.html#installing-pipenv</a></li>
-</ul></li>
-</ol>
-<h2 id="prepare-the-db-for-the-python-script">Prepare the db for the Python Script</h2>
-<p><em>This step may be completed while downloading the .bak file</em></p>
-<ol type="1">
-<li>Create a database user for the python script
-<ul>
-<li>In sql server management studio, click security -&gt; logins</li>
-<li>Right click add new user</li>
-<li>Name pytest</li>
-<li>Give strong password</li>
-<li>Go to user mapping and add access to the restored database</li>
-<li>Add sql_readaccess to the permissions of the restored database</li>
-</ul></li>
-<li>You may or may not be required to set the login type to windows authentication and sql server access
-<ul>
-<li>In the object explorer click the SERVER not the restored database</li>
-<li>Right click properties</li>
-<li>Select the security tab</li>
-<li>Select windows and sql server login</li>
-<li>Click ok</li>
-<li>Right click the SERVER again and click restart to apply the changes</li>
-</ul></li>
-</ol>
-<h2 id="prepare-the-sync_nlx.py-script">Prepare the <code>sync_nlx.py</code> Script</h2>
-<p><em>This step may be completed while downloading the .bak file</em></p>
-<ol type="1">
-<li>Get the repo
-<ul>
-<li>Login to github on the machine through chrome</li>
-<li>Go to <a href="https://github.com/workforce-data-initiative/skills-import-private" class="uri">https://github.com/workforce-data-initiative/skills-import-private</a></li>
-<li>Click download repo</li>
-<li>Extract the zip file to c:-blah-blah</li>
-</ul></li>
-<li>Install requirements
-<ul>
-<li>In the requirements.txt file add ‘#egg=skills_util’ to the git url</li>
-<li>Setup pipenv env with ‘pipenv –python 3.8’ (assuming thats the version you downloaded)
-<ul>
-<li>This step should generate a Pipfile from your requirements file. If it does not produce a pipfile with your items then do the following – install the requirements <code>pipenv install -r requirements.txt</code></li>
-</ul></li>
-<li>Install precompiled binary for pymssql
-<ul>
-<li>Download from here - <a href="https://www.lfd.uci.edu/~gohlke/pythonlibs/#pymssq" class="uri">https://www.lfd.uci.edu/~gohlke/pythonlibs/#pymssq</a></li>
-<li>Move it to the project folder</li>
-<li><code>pipenv install pymssql.whl</code> +<code>pipenv install pyodbc</code> if you are using the modified script</li>
-<li>Install Visual Studio 2015, 2017 and 2019 x64 <a href="https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads" class="uri">https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads</a></li>
-</ul></li>
-</ul></li>
-</ol>
-<h2 id="run-the-nlx_sync.py-script">Run the <code>nlx_sync.py</code> Script</h2>
-<p><em>This script creates the CSV files</em></p>
-<ol type="1">
-<li>Pipenv run <code>sync_nlx.py</code></li>
-<li>This should run for a long time (5+ hours potentially)</li>
-</ol>
-<h2 id="run-the-second-python-script">Run the Second Python Script</h2>
-<p><em>This script creates the JobPosting formatted files</em></p>
+<h1 id="site-creation">Site Creation</h1>
+<p>This documentation site was built using <code>rmarkdown</code> and <code>distill</code>. Instead of duplicating documentation for those packages, I have provided links to them above. All of the documentation required to build this site along with an even broader array of customization options is available in the <code>rmarkdown</code> and <code>distill</code> documentation. For further site customization, please refer to those package sites.</p>
+<h1 id="workflow">Workflow</h1>
+<p>The workflow that I would recommend begins with the creation of a version controlled <a href="https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects">Project</a>. To do this, you should first go to the NLx Research Hub GitHub repository and copy the provided link to clone the repository.</p>
+<p><img src="imgs/copy.png" /></p>
+<p>After copying the link, go to RStudio Desktop and use the menu located at the top right of the IDE to create a new project.</p>
+<p><img src="imgs/new-project.png" /></p>
+<p>At the first prompt, please select Version Control.</p>
+<p><img src="imgs/project-start.png" /></p>
+<p>At the second prompt, please select Git.</p>
+<p><img src="imgs/version-control.png" /></p>
+<p>At the third prompt, paste in the GitHub repository link that you copied earlier. The Project directory name should populate automatically, but if not, use the same name as the GitHub repository (skills-import). You can accept the default location for where the Project directory will be created on your computer or you can use the Browse button to choose where you would like for the project directory to be created.</p>
+<p><img src="imgs/create.png" /></p>
+<p>Once you click Create Project, a local version controlled copy of the remote GitHub repository will be created for you in an R Project environment.</p>
+<h1 id="site-location">Site Location</h1>
+<p>The documentation site is all contained within the docs folder of the repository. If you would like to make changes, please only open and edit files that end in <code>.Rmd</code>. When building the site, these files are processed and converted to <code>.html</code>. Further information regarding this can be found in the <code>distill</code> package documentation provided above. Everything you need is provided in that documentation if you would like to further customize the site by adding additional pages, images, or links</p>
+<h1 id="site-build">Site Build</h1>
+<p>Following the <code>distill</code> package documentation found here - <a href="https://rstudio.github.io/distill/website.html#building-the-site">Building the Site</a> - it is recommended that you build the site with following command in your active R console: <code>rmarkdown::render_site()</code>.</p>
+<p>It is important to note that you will need to make sure your active working directory is the <code>docs</code> folder.</p>
+<p>Once this command is run within the <code>docs</code> folder, your site will automatically build for you.</p>
+<h1 id="pushing-changes">Pushing Changes</h1>
+<p>Click the Git tab within your RStudio IDE.</p>
+<p><img src="imgs/git-tab.png" /></p>
+<p>Now click the Diff button within your Git tab. It should open a prompt that looks like this.</p>
+<p><img src="imgs/diff.png" /></p>
+<p>Select all of your changed files and click the Stage button.</p>
+<p><img src="imgs/stage.png" /></p>
+<p>Then type a description in the Commit message dialog box. After typing your message click commit. All of your changes will now be committed locally. The final step is pushing these changes to your remote repository. Click the push button at the top right of the dialog.</p>
+<p><img src="imgs/push.png" /></p>
+<p>You may be prompted to enter your GitHub username and password if you have not already gone through the process of authenticating. After pushing your changes, any updates you made should now be automatically pulled in and published via GitHub pages.</p>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
